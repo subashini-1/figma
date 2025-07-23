@@ -96,14 +96,17 @@ class MyApp extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                padding: EdgeInsets.all(8),
-                                color: Colors.blue,
-                                child: Text(
-                                  "Verify Now",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  padding: EdgeInsets.all(8),
+                                  color: Colors.blue,
+                                  child: Text(
+                                    "Verify Now",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                    ),
                                   ),
                                 ),
                               ),
