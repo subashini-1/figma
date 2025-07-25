@@ -94,7 +94,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                     SizedBox(height: 10),
                     SizedBox(
-                      width: 400.0,
+                      width: 4000.0,
                       height: 200.0,
                       child: Row(
                         children: [
@@ -138,6 +138,15 @@ class _MyAppState extends State<MyApp> {
                                     ),
                                   ],
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    height: 100,
+                                    width: 100,
+                                    child: Image.asset('assets/images/figma.png'),
+                                  ),
+                                ),
+
                               ],
                             ),
                           ),
