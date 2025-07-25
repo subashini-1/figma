@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -18,8 +19,8 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController truckNumberController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   String? selectedTier;
-
   File? selectedImage;
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -118,7 +119,8 @@ class _MyAppState extends State<MyApp> {
                                     ),
                                     SizedBox(height: 40),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(8.0),
@@ -143,10 +145,9 @@ class _MyAppState extends State<MyApp> {
                                   child: Container(
                                     height: 100,
                                     width: 100,
-                                    child: Image.asset('assets/images/figma.png'),
+                                    child: Image.asset('assets/person.png'),
                                   ),
                                 ),
-
                               ],
                             ),
                           ),
@@ -195,172 +196,182 @@ class _MyAppState extends State<MyApp> {
                                     ),
                                     child: Form(
                                       key: _formKey,
-                                      child:SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Text(
-                                            "Add Truck",
-                                            style: TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 16),
-                                          TextFormField(
-                                            controller: truckNumberController,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              hintText: "Truck Number",
-                                            ),
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.trim().isEmpty) {
-                                                return 'Truck number is required';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          SizedBox(height: 12),
-                                          TextFormField(
-                                            controller: descriptionController,
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              hintText: "Description",
-                                            ),
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.trim().isEmpty) {
-                                                return 'Description is required';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          SizedBox(height: 16),
-                                          DropdownButtonFormField<String>(
-                                            decoration: InputDecoration(
-                                              border: OutlineInputBorder(),
-                                              hintText: "Tier",
-                                            ),
-                                            value: selectedTier,
-                                            items: [
-                                              DropdownMenuItem(
-                                                value: "No Plan",
-                                                child: Text("No Plan"),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              "Add Truck",
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
                                               ),
-                                              DropdownMenuItem(
-                                                value: "Silver",
-                                                child: Text("Silver"),
+                                            ),
+                                            SizedBox(height: 16),
+                                            TextFormField(
+                                              controller: truckNumberController,
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                hintText: "Truck Number",
                                               ),
-                                              DropdownMenuItem(
-                                                value: "Gold",
-                                                child: Text("Gold"),
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.trim().isEmpty) {
+                                                  return 'Truck number is required';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                            SizedBox(height: 12),
+                                            TextFormField(
+                                              controller: descriptionController,
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                hintText: "Description",
                                               ),
-                                            ],
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                selectedTier = value;
-                                              });
-                                            },
-                                            validator: (value) {
-                                              if (value == null ||
-                                                  value.trim().isEmpty) {
-                                                return 'Select the tier';
-                                              }
-                                              return null;
-                                            },
-                                          ),
-                                          SizedBox(height: 25),
-                                          DottedBorder(
-                                            child: Row(
-                                              children: [
-                                                Column(
-                                                  crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Truck",
-                                                      style: TextStyle(
-                                                        color: Colors.blue,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      "lorem ipsum is a simple dumm",
-                                                    ),
-                                                    ElevatedButton(
-                                                      onPressed: () async {
-                                                        final pickedFile =
-                                                        await ImagePicker()
-                                                            .pickImage(
-                                                            source: ImageSource
-                                                                .gallery);
-                                                        if (pickedFile != null) {
-                                                          setState(() {
-                                                            selectedImage = File(
-                                                                pickedFile.path);
-                                                          });
-                                                        }
-                                                      },
-                                                      child: Text("Upload +"),
-                                                      style:
-                                                      ElevatedButton.styleFrom(
-                                                        backgroundColor:
-                                                        Colors.blueGrey,
-                                                        foregroundColor:
-                                                        Colors.black,
-                                                      ),
-                                                    ),
-                                                  ],
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.trim().isEmpty) {
+                                                  return 'Description is required';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                            SizedBox(height: 16),
+                                            DropdownButtonFormField<String>(
+                                              decoration: InputDecoration(
+                                                border: OutlineInputBorder(),
+                                                hintText: "Tier",
+                                              ),
+                                              value: selectedTier,
+                                              items: [
+                                                DropdownMenuItem(
+                                                  value: "No Plan",
+                                                  child: Text("No Plan"),
                                                 ),
-                                                Container(
-                                                  child: Column(
+                                                DropdownMenuItem(
+                                                  value: "Silver",
+                                                  child: Text("Silver"),
+                                                ),
+                                                DropdownMenuItem(
+                                                  value: "Gold",
+                                                  child: Text("Gold"),
+                                                ),
+                                              ],
+                                              onChanged: (String? value) {
+                                                setState(() {
+                                                  selectedTier = value;
+                                                });
+                                              },
+                                              validator: (value) {
+                                                if (value == null ||
+                                                    value.trim().isEmpty) {
+                                                  return 'Select the tier';
+                                                }
+                                                return null;
+                                              },
+                                            ),
+                                            SizedBox(height: 25),
+                                            DottedBorder(
+                                              child: Row(
+                                                children: [
+                                                  Column(
                                                     crossAxisAlignment:
-                                                    CrossAxisAlignment.end,
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: [
-                                                          CircleAvatar(
-                                                        radius: 28,
-                                                        backgroundColor:
-                                                        Colors.blueGrey,
+                                                      Text(
+                                                        "Truck",
+                                                        style: TextStyle(
+                                                          color: Colors.blue,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        "lorem ipsum is a simple dumm",
+                                                      ),
+                                                      ElevatedButton(
+                                                        onPressed: () async {
+                                                          final pickedFile =
+                                                              await ImagePicker()
+                                                                  .pickImage(
+                                                                    source: ImageSource
+                                                                        .gallery,
+                                                                  );
+                                                          if (pickedFile !=
+                                                              null) {
+                                                            setState(() {
+                                                              selectedImage =
+                                                                  File(
+                                                                    pickedFile
+                                                                        .path,
+                                                                  );
+                                                            });
+                                                          }
+                                                        },
+                                                        child: Text("Upload +"),
+                                                        style:
+                                                            ElevatedButton.styleFrom(
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .blueGrey,
+                                                              foregroundColor:
+                                                                  Colors.black,
+                                                            ),
                                                       ),
                                                     ],
                                                   ),
-                                                ),
-                                              ],
+                                                  Container(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .end,
+                                                      children: [
+                                                        CircleAvatar(
+                                                          radius: 28,
+                                                          backgroundColor:
+                                                              Colors.blueGrey,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          SizedBox(height: 25),
-                                          ElevatedButton(
-                                            onPressed: () {
-                                              if (_formKey.currentState!
-                                                  .validate()) {
-                                                setState(() {
-                                                  trucks.add({
-                                                    "number":
-                                                    truckNumberController
-                                                        .text,
-                                                    "description":
-                                                    descriptionController
-                                                        .text,
-                                                    "tier": selectedTier!,
-                                                    "image":
-                                                    selectedImage?.path ?? "",
+                                            SizedBox(height: 25),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                if (_formKey.currentState!
+                                                    .validate()) {
+                                                  setState(() {
+                                                    trucks.add({
+                                                      "number":
+                                                          truckNumberController
+                                                              .text,
+                                                      "description":
+                                                          descriptionController
+                                                              .text,
+                                                      "tier": selectedTier!,
+                                                      "image":
+                                                          selectedImage?.path ??
+                                                          "",
+                                                    });
+                                                    _clearControllers();
                                                   });
-                                                  _clearControllers();
-                                                });
-                                                Navigator.pop(context);
-                                              }
-                                            },
-                                            child: Text("Add Truck"),
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: Colors.blue,
-                                              foregroundColor: Colors.white,
+                                                  Navigator.pop(context);
+                                                }
+                                              },
+                                              child: Text("Add Truck"),
+                                              style: ElevatedButton.styleFrom(
+                                                backgroundColor: Colors.blue,
+                                                foregroundColor: Colors.white,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ));
+                                );
                               },
                               child: CircleAvatar(
                                 child: Icon(Icons.add, color: Colors.white),
@@ -379,70 +390,72 @@ class _MyAppState extends State<MyApp> {
                     SizedBox(height: 16),
                     trucks.isEmpty
                         ? Center(
-                      child: Text(
-                        "no data",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                    )
+                            child: Text(
+                              "no data",
+                              style: TextStyle(color: Colors.grey),
+                            ),
+                          )
                         : ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: trucks.length,
-                      itemBuilder: (context, index) {
-                        final truck = trucks[index];
-                        return Card(
-                          child: Column(
-                            children: [
-                              ListTile(
-                                leading: truck["image"] != null &&
-                                    truck["image"]!.isNotEmpty
-                                    ? Image.file(
-                                  File(truck["image"]!),
-                                  width: 70,
-                                  height: 70,
-                                  fit: BoxFit.cover,
-                                )
-                                    : Container(
-                                  width: 70,
-                                  height: 70,
-                                  color: Colors.grey,
-                                ),
-                                title: Row(
-                                  mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: trucks.length,
+                            itemBuilder: (context, index) {
+                              final truck = trucks[index];
+                              return Card(
+                                child: Column(
                                   children: [
-                                    Text(truck["number"] ?? ""),
-                                    if (truck["tier"] != null)
-                                      Container(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 8, vertical: 4),
-                                        decoration: BoxDecoration(
-                                          color: truck["tier"] == "Gold"
-                                              ? Colors.amber
-                                              : truck["tier"] ==
-                                              "Silver"
-                                              ? Colors.purple
-                                              : Colors.grey,
-                                          borderRadius:
-                                          BorderRadius.circular(12),
-                                        ),
-                                        child: Text(
-                                          truck["tier"] ?? "",
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12),
-                                        ),
+                                    ListTile(
+                                      leading:
+                                          truck["image"] != null &&
+                                              truck["image"]!.isNotEmpty
+                                          ? Image.file(
+                                              File(truck["image"]!),
+                                              width: 70,
+                                              height: 70,
+                                              fit: BoxFit.cover,
+                                            )
+                                          : Container(
+                                              width: 70,
+                                              height: 70,
+                                              color: Colors.grey,
+                                            ),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(truck["number"] ?? ""),
+                                          if (truck["tier"] != null)
+                                            Container(
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 8,
+                                                vertical: 4,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: truck["tier"] == "Gold"
+                                                    ? Colors.yellow
+                                                    : truck["tier"] == "Silver"
+                                                    ? Colors.purple
+                                                    : Colors.grey,
+                                              ),
+                                              child: Text(
+                                                truck["tier"] ?? "",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 12,
+                                                ),
+                                              ),
+                                            ),
+                                        ],
                                       ),
+                                      subtitle: Text(
+                                        "${truck["description"] ?? ""}",
+                                      ),
+                                    ),
                                   ],
                                 ),
-                                subtitle:
-                                Text("${truck["description"] ?? ""}"),
-                              ),
-                            ],
+                              );
+                            },
                           ),
-                        );
-                      },
-                    ),
                   ],
                 ),
               ),
@@ -457,7 +470,6 @@ class _MyAppState extends State<MyApp> {
     truckNumberController.clear();
     descriptionController.clear();
     selectedImage = null;
+    selectedTier = null;
   }
 }
-
-

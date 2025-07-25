@@ -61,18 +61,17 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
 asset:
-  -Images/folderimage.png
-  -Images/truck.png
+ -assets/person.png
 
 
-  #       - asset: fonts/Schyler-Italic.ttf
+
+  #       - assets: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
+  #       - assets: fonts/TrajanPro.ttf
+  #       - assets: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
   # For details regarding fonts from package dependencies,
