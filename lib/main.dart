@@ -1,5 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 void main() {
   runApp(MaterialApp(home: MyApp()));
@@ -17,6 +19,7 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController descriptionController = TextEditingController();
   String? selectedTier;
 
+  File? selectedImage;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -93,48 +96,52 @@ class _MyAppState extends State<MyApp> {
                     SizedBox(
                       width: 400.0,
                       height: 200.0,
-                      child: Card(
-                        child: Row(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Row(
+                        children: [
+                          Card(
+                            child: Row(
                               children: [
-                                Text(
-                                  'Verify Your KYC',
-                                  style: TextStyle(
-                                    fontSize: 30,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  "lorem ipsum is a simple dumm",
-                                  style: TextStyle(fontSize: 17),
-                                ),
-                                SizedBox(height: 40),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8),
-                                        color: Colors.blue,
-                                        child: Text(
-                                          "Verify Now",
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
+                                    Text(
+                                      'Verify Your KYC',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "lorem ipsum is a simple dumm",
+                                      style: TextStyle(fontSize: 17),
+                                    ),
+                                    SizedBox(height: 40),
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Container(
+                                            padding: EdgeInsets.all(8),
+                                            color: Colors.blue,
+                                            child: Text(
+                                              "Verify Now",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 20,
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
+                                      ],
                                     ),
                                   ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -179,6 +186,7 @@ class _MyAppState extends State<MyApp> {
                                     ),
                                     child: Form(
                                       key: _formKey,
+                                      child:SingleChildScrollView(
                                       child: Column(
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
@@ -259,7 +267,7 @@ class _MyAppState extends State<MyApp> {
                                               children: [
                                                 Column(
                                                   crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
+                                                  CrossAxisAlignment.start,
                                                   children: [
                                                     Text(
                                                       "Truck",
@@ -271,27 +279,39 @@ class _MyAppState extends State<MyApp> {
                                                       "lorem ipsum is a simple dumm",
                                                     ),
                                                     ElevatedButton(
-                                                      onPressed: () {},
+                                                      onPressed: () async {
+                                                        final pickedFile =
+                                                        await ImagePicker()
+                                                            .pickImage(
+                                                            source: ImageSource
+                                                                .gallery);
+                                                        if (pickedFile != null) {
+                                                          setState(() {
+                                                            selectedImage = File(
+                                                                pickedFile.path);
+                                                          });
+                                                        }
+                                                      },
                                                       child: Text("Upload +"),
                                                       style:
-                                                          ElevatedButton.styleFrom(
-                                                            backgroundColor:
-                                                                Colors.blueGrey,
-                                                            foregroundColor:
-                                                                Colors.black,
-                                                          ),
+                                                      ElevatedButton.styleFrom(
+                                                        backgroundColor:
+                                                        Colors.blueGrey,
+                                                        foregroundColor:
+                                                        Colors.black,
+                                                      ),
                                                     ),
                                                   ],
                                                 ),
                                                 Container(
                                                   child: Column(
                                                     crossAxisAlignment:
-                                                        CrossAxisAlignment.end,
+                                                    CrossAxisAlignment.end,
                                                     children: [
-                                                      CircleAvatar(
+                                                          CircleAvatar(
                                                         radius: 28,
                                                         backgroundColor:
-                                                            Colors.blueGrey,
+                                                        Colors.blueGrey,
                                                       ),
                                                     ],
                                                   ),
@@ -307,13 +327,16 @@ class _MyAppState extends State<MyApp> {
                                                 setState(() {
                                                   trucks.add({
                                                     "number":
-                                                        truckNumberController
-                                                            .text,
+                                                    truckNumberController
+                                                        .text,
                                                     "description":
-                                                        descriptionController
-                                                            .text,
+                                                    descriptionController
+                                                        .text,
                                                     "tier": selectedTier!,
+                                                    "image":
+                                                    selectedImage?.path ?? "",
                                                   });
+                                                  _clearControllers();
                                                 });
                                                 Navigator.pop(context);
                                               }
@@ -328,7 +351,7 @@ class _MyAppState extends State<MyApp> {
                                       ),
                                     ),
                                   ),
-                                );
+                                ));
                               },
                               child: CircleAvatar(
                                 child: Icon(Icons.add, color: Colors.white),
@@ -347,38 +370,70 @@ class _MyAppState extends State<MyApp> {
                     SizedBox(height: 16),
                     trucks.isEmpty
                         ? Center(
-                            child: Text(
-                              "no data",
-                              style: TextStyle(color: Colors.grey),
-                            ),
-                          )
+                      child: Text(
+                        "no data",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    )
                         : ListView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            itemCount: trucks.length,
-                            itemBuilder: (context, index) {
-                              final truck = trucks[index];
-                              return Card(
-                                child: Column(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: trucks.length,
+                      itemBuilder: (context, index) {
+                        final truck = trucks[index];
+                        return Card(
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: truck["image"] != null &&
+                                    truck["image"]!.isNotEmpty
+                                    ? Image.file(
+                                  File(truck["image"]!),
+                                  width: 70,
+                                  height: 70,
+                                  fit: BoxFit.cover,
+                                )
+                                    : Container(
+                                  width: 70,
+                                  height: 70,
+                                  color: Colors.grey,
+                                ),
+                                title: Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
-                                    ListTile(
-                                      title: Text(truck["number"] ?? ""),
-                                      subtitle: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "${truck["description"] ?? ""} ",
-                                          ),
-                                          Text(" Tier: ${truck["tier"] ?? ""}"),
-                                        ],
+                                    Text(truck["number"] ?? ""),
+                                    if (truck["tier"] != null)
+                                      Container(
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 8, vertical: 4),
+                                        decoration: BoxDecoration(
+                                          color: truck["tier"] == "Gold"
+                                              ? Colors.amber
+                                              : truck["tier"] ==
+                                              "Silver"
+                                              ? Colors.purple
+                                              : Colors.grey,
+                                          borderRadius:
+                                          BorderRadius.circular(12),
+                                        ),
+                                        child: Text(
+                                          truck["tier"] ?? "",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12),
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 ),
-                              );
-                            },
+                                subtitle:
+                                Text("${truck["description"] ?? ""}"),
+                              ),
+                            ],
                           ),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -392,5 +447,8 @@ class _MyAppState extends State<MyApp> {
   void _clearControllers() {
     truckNumberController.clear();
     descriptionController.clear();
+    selectedImage = null;
   }
 }
+
+
