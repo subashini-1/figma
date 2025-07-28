@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,11 +20,12 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController descriptionController = TextEditingController();
   String? selectedTier;
   File? selectedImage;
-  final ImagePicker _picker=ImagePicker();
-
+  List<DropdownMenuItem<String>>? tiers = [
+    DropdownMenuItem(value: "No Plan", child: Text("No Plan")),
+    DropdownMenuItem(value: "Silver", child: Text("Silver")),
+    DropdownMenuItem(value: "Gold", child: Text("Gold")),
+  ];
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class _MyAppState extends State<MyApp> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
-                shape: StadiumBorder(side: BorderSide(color: Colors.white)),
+                shape: StadiumBorder(side: BorderSide(color: Colors.white30)),
               ),
             ),
           ),
@@ -105,72 +107,86 @@ class _MyAppState extends State<MyApp> {
                       ),
                       padding: EdgeInsets.all(12),
                       child: SizedBox(
-                        width: 370.0,
+                        width: 400,
                         height: 200.0,
-                        child: Container(
-                          child: Row(
-                            children: [
-                              Card(
-                                child: Container(
-                                  decoration:BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8),
+                        child: Flexible(
+                          child: Container(
+                            child: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: [
+                                  Card(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
 
-                                  color: Colors.grey[350],),
-                                  child: Row(
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        color: Colors.grey[350],
+                                      ),
+                                      child: Row(
                                         children: [
-                                          Text(
-                                            'Verify Your KYC',
-                                            style: TextStyle(
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            "lorem ipsum is a simple dumm",
-                                            style: TextStyle(fontSize: 17),
-                                          ),
-                                          SizedBox(height: 40),
                                           Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.all(8.0),
-                                                child: Container(
-                                                  padding: EdgeInsets.all(8),
-                                                  color: Colors.blue,
-                                                  child: Text(
-                                                    "Verify Now",
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 20,
+                                              Text(
+                                                'Verify Your KYC',
+                                                style: TextStyle(
+                                                  fontSize: 30,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                              SizedBox(height: 10),
+                                              Text(
+                                                "lorem ipsum is a simple dumm",
+                                                style: TextStyle(fontSize: 17),
+                                              ),
+                                              SizedBox(height: 40),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                          8.0,
+                                                        ),
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(
+                                                        8,
+                                                      ),
+                                                      color: Colors.blue,
+                                                      child: Text(
+                                                        "Verify Now",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 20,
+                                                        ),
+                                                      ),
                                                     ),
                                                   ),
-                                                ),
+                                                ],
                                               ),
                                             ],
                                           ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Container(
+                                              height: 100,
+                                              width: 100,
+                                              child: Image(
+                                                image: AssetImage(
+                                                  'assets/folder.png',
+                                                ),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Container(
-                                          height: 100,
-                                          width: 100,
-                                          child: Image(
-                                            image: AssetImage('assets/person.png'),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                    ),
                                   ),
-                                ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
@@ -209,7 +225,6 @@ class _MyAppState extends State<MyApp> {
                                   ),
                                   builder: (context) => Padding(
                                     padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context).viewInsets.bottom,
                                       left: 16,
                                       right: 16,
                                       top: 20,
@@ -228,19 +243,25 @@ class _MyAppState extends State<MyApp> {
                                                   topRight: Radius.circular(20),
                                                 ),
                                               ),
-                                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                              padding: EdgeInsets.symmetric(
+                                                horizontal: 16,
+                                                vertical: 16,
+                                              ),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(
                                                     "Add Truck",
                                                     style: TextStyle(
                                                       fontSize: 20,
-                                                      fontWeight: FontWeight.bold,
+                                                      fontWeight:
+                                                          FontWeight.bold,
                                                     ),
                                                   ),
                                                   Image.asset(
-                                                    'assets/person.png',
+                                                    'assets/folder.png',
                                                     width: 40,
                                                     height: 40,
                                                   ),
@@ -284,20 +305,8 @@ class _MyAppState extends State<MyApp> {
                                                 hintText: "Tier",
                                               ),
                                               value: selectedTier,
-                                              items: [
-                                                DropdownMenuItem(
-                                                  value: "No Plan",
-                                                  child: Text("No Plan"),
-                                                ),
-                                                DropdownMenuItem(
-                                                  value: "Silver",
-                                                  child: Text("Silver"),
-                                                ),
-                                                DropdownMenuItem(
-                                                  value: "Gold",
-                                                  child: Text("Gold"),
-                                                ),
-                                              ],
+                                              items: tiers,
+
                                               onChanged: (String? value) {
                                                 setState(() {
                                                   selectedTier = value;
@@ -329,45 +338,44 @@ class _MyAppState extends State<MyApp> {
                                                       Text(
                                                         "lorem ipsum is a simple dumm",
                                                       ),
-                                                Row(
-                                                    children: [
-                                                    ElevatedButton(
-                                                    onPressed: () async {
-                                            final pickedFile =
-                                            await ImagePicker()
-                                                .pickImage(
-                                            source: ImageSource
-                                                .gallery,
-                                            );
-                                            if (pickedFile !=
-                                            null) {
-                                            setState(() {
-                                            selectedImage =
-                                            File(
-                                            pickedFile
-                                                .path,
-                                            );
-                                            });
-                                            }
-                                            }, child: Text("Upload +"),
-                                                      style:
-                                                      ElevatedButton.styleFrom(
-                                                        backgroundColor:
-                                                        Colors
-                                                            .blueGrey,
-                                                        foregroundColor:
-                                                        Colors.black,
+                                                      Row(
+                                                        children: [
+                                                          ElevatedButton(
+                                                            onPressed: () async {
+                                                              final pickedFile =
+                                                                  await ImagePicker()
+                                                                      .pickImage(
+                                                                        source:
+                                                                            ImageSource.gallery,
+                                                                      );
+                                                              if (pickedFile !=
+                                                                  null) {
+                                                                setState(() {
+                                                                  selectedImage =
+                                                                      File(
+                                                                        pickedFile
+                                                                            .path,
+                                                                      );
+                                                                });
+                                                              }
+                                                            },
+                                                            child: Text(
+                                                              "Upload +",
+                                                            ),
+                                                            style: ElevatedButton.styleFrom(
+                                                              backgroundColor:
+                                                                  Colors
+                                                                      .blueGrey,
+                                                              foregroundColor:
+                                                                  Colors.black,
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ),
-                                                      SizedBox(width: 10),
-                                                      if(selectedImage !=null)
-                                                        Icon(Icons.check_circle,color:Colors.green),
-                                                    ],
-                                                ),
                                                     ],
                                                   ),
 
-                                                  SizedBox(width: 280),
+                                                  SizedBox(width: 100),
                                                   Container(
                                                     child: Row(
                                                       children: [
@@ -379,7 +387,8 @@ class _MyAppState extends State<MyApp> {
                                                             CircleAvatar(
                                                               radius: 30,
                                                               backgroundColor:
-                                                                  Colors.blueGrey,
+                                                                  Colors
+                                                                      .blueGrey,
                                                             ),
                                                           ],
                                                         ),
@@ -428,7 +437,6 @@ class _MyAppState extends State<MyApp> {
                               child: CircleAvatar(
                                 child: Icon(Icons.add, color: Colors.white),
                                 backgroundColor: Colors.blue,
-
                               ),
                             ),
                           ],
