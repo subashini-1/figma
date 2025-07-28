@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,8 +19,11 @@ class _MyAppState extends State<MyApp> {
   final TextEditingController descriptionController = TextEditingController();
   String? selectedTier;
   File? selectedImage;
+  final ImagePicker _picker=ImagePicker();
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +74,7 @@ class _MyAppState extends State<MyApp> {
                             size: 50,
                           ),
                         ),
+                        SizedBox(width: 8.0),
                         Text(
                           "Hello",
                           style: TextStyle(
@@ -80,6 +83,7 @@ class _MyAppState extends State<MyApp> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        SizedBox(width: 8.0),
                         Container(
                           color: Colors.yellow,
                           child: Text(
@@ -94,66 +98,81 @@ class _MyAppState extends State<MyApp> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                     ),
                     SizedBox(height: 10),
-                    SizedBox(
-                      width: 4000.0,
-                      height: 200.0,
-                      child: Row(
-                        children: [
-                          Card(
-                            child: Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Verify Your KYC',
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    SizedBox(height: 10),
-                                    Text(
-                                      "lorem ipsum is a simple dumm",
-                                      style: TextStyle(fontSize: 17),
-                                    ),
-                                    SizedBox(height: 40),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            color: Colors.blue,
-                                            child: Text(
-                                              "Verify Now",
-                                              style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                              ),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: EdgeInsets.all(12),
+                      child: SizedBox(
+                        width: 370.0,
+                        height: 200.0,
+                        child: Container(
+                          child: Row(
+                            children: [
+                              Card(
+                                child: Container(
+                                  decoration:BoxDecoration(
+                                    borderRadius: BorderRadius.circular(8),
+
+                                  color: Colors.grey[350],),
+                                  child: Row(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Verify Your KYC',
+                                            style: TextStyle(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "lorem ipsum is a simple dumm",
+                                            style: TextStyle(fontSize: 17),
+                                          ),
+                                          SizedBox(height: 40),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.all(8.0),
+                                                child: Container(
+                                                  padding: EdgeInsets.all(8),
+                                                  color: Colors.blue,
+                                                  child: Text(
+                                                    "Verify Now",
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 20,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Container(
+                                          height: 100,
+                                          width: 100,
+                                          child: Image(
+                                            image: AssetImage('assets/person.png'),
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 100,
-                                    width: 100,
-                                    child: Image(
-                                      image: AssetImage('assets/person.png'),
-                                    ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ],
@@ -175,6 +194,7 @@ class _MyAppState extends State<MyApp> {
                             fontSize: 20,
                           ),
                         ),
+                        SizedBox(width: 8.0),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -189,9 +209,7 @@ class _MyAppState extends State<MyApp> {
                                   ),
                                   builder: (context) => Padding(
                                     padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(
-                                        context,
-                                      ).viewInsets.bottom,
+                                      bottom: MediaQuery.of(context).viewInsets.bottom,
                                       left: 16,
                                       right: 16,
                                       top: 20,
@@ -202,11 +220,31 @@ class _MyAppState extends State<MyApp> {
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
-                                            Text(
-                                              "Add Truck",
-                                              style: TextStyle(
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.bold,
+                                            Container(
+                                              decoration: BoxDecoration(
+                                                color: Colors.blueAccent[100],
+                                                borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(20),
+                                                  topRight: Radius.circular(20),
+                                                ),
+                                              ),
+                                              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Add Truck",
+                                                    style: TextStyle(
+                                                      fontSize: 20,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                  Image.asset(
+                                                    'assets/person.png',
+                                                    width: 40,
+                                                    height: 40,
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             SizedBox(height: 16),
@@ -291,47 +329,59 @@ class _MyAppState extends State<MyApp> {
                                                       Text(
                                                         "lorem ipsum is a simple dumm",
                                                       ),
-                                                      ElevatedButton(
-                                                        onPressed: () async {
-                                                          final pickedFile =
-                                                              await ImagePicker()
-                                                                  .pickImage(
-                                                                    source: ImageSource
-                                                                        .gallery,
-                                                                  );
-                                                          if (pickedFile !=
-                                                              null) {
-                                                            setState(() {
-                                                              selectedImage =
-                                                                  File(
-                                                                    pickedFile
-                                                                        .path,
-                                                                  );
-                                                            });
-                                                          }
-                                                        },
-                                                        child: Text("Upload +"),
-                                                        style:
-                                                            ElevatedButton.styleFrom(
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .blueGrey,
-                                                              foregroundColor:
-                                                                  Colors.black,
-                                                            ),
+                                                Row(
+                                                    children: [
+                                                    ElevatedButton(
+                                                    onPressed: () async {
+                                            final pickedFile =
+                                            await ImagePicker()
+                                                .pickImage(
+                                            source: ImageSource
+                                                .gallery,
+                                            );
+                                            if (pickedFile !=
+                                            null) {
+                                            setState(() {
+                                            selectedImage =
+                                            File(
+                                            pickedFile
+                                                .path,
+                                            );
+                                            });
+                                            }
+                                            }, child: Text("Upload +"),
+                                                      style:
+                                                      ElevatedButton.styleFrom(
+                                                        backgroundColor:
+                                                        Colors
+                                                            .blueGrey,
+                                                        foregroundColor:
+                                                        Colors.black,
                                                       ),
+                                                    ),
+                                                      SizedBox(width: 10),
+                                                      if(selectedImage !=null)
+                                                        Icon(Icons.check_circle,color:Colors.green),
+                                                    ],
+                                                ),
                                                     ],
                                                   ),
+
+                                                  SizedBox(width: 280),
                                                   Container(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .end,
+                                                    child: Row(
                                                       children: [
-                                                        CircleAvatar(
-                                                          radius: 28,
-                                                          backgroundColor:
-                                                              Colors.blueGrey,
+                                                        Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .end,
+                                                          children: [
+                                                            CircleAvatar(
+                                                              radius: 30,
+                                                              backgroundColor:
+                                                                  Colors.blueGrey,
+                                                            ),
+                                                          ],
                                                         ),
                                                       ],
                                                     ),
@@ -378,6 +428,7 @@ class _MyAppState extends State<MyApp> {
                               child: CircleAvatar(
                                 child: Icon(Icons.add, color: Colors.white),
                                 backgroundColor: Colors.blue,
+
                               ),
                             ),
                           ],
