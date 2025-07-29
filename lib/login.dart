@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
+
+import 'Api-service.dart';
 
 void main() {
-  runApp(MaterialApp(home: MyApp()));
+  runApp(MaterialApp(home: loginpage()));
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
+class loginpage extends StatefulWidget {
+  const loginpage({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  State<loginpage> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<loginpage> {
+  final TextEditingController employeecode = TextEditingController();
+  final TextEditingController password = TextEditingController();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  void checkInternetConnection() async {
+    bool hasConnection = await InternetConnection().hasInternetAccess;
+    if (!hasConnection) {
+      Fluttertoast.showToast(
+        msg: "Check your internet connection",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+      );
+    } else {
+      ApiService().postLogin({"employee code": " ", "password": " "});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,49 +47,62 @@ class _MyAppState extends State<MyApp> {
       ),
       body: Form(
         key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Column(children: [Text("User  Name")]),
-            TextFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter User Name",
+        child: Padding(
+          padding: EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text("Employee code")],
               ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'User Name must be entered';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 30),
-            Text("Password"),
-            TextFormField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: "Enter Passowrd",
+              TextFormField(
+                controller: employeecode,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter Employee code",
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'User Name must be entered';
+                  }
+                  return null;
+                },
               ),
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return 'Password must be entered';
-                }
-                return null;
-              },
-            ),
-            SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) ;
-              },
-              child: Text("Login"),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
+              SizedBox(height: 30),
+              Text("Password"),
+              TextFormField(
+                controller: password,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: "Enter Passowrd",
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Password must be entered';
+                  }
+                  return null;
+                },
               ),
-            ),
-          ],
+              SizedBox(height: 30),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      checkInternetConnection();
+                    }
+                    ;
+                  },
+                  child: Text("Login"),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                    foregroundColor: Colors.white,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
