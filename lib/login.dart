@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
-
 import 'Api-service.dart';
-
-void main() {
-  runApp(MaterialApp(home: loginpage()));
-}
+import 'Model_class.dart';
+import 'homepage.dart';
 
 class loginpage extends StatefulWidget {
   const loginpage({super.key});
@@ -18,10 +15,9 @@ class loginpage extends StatefulWidget {
 class _MyAppState extends State<loginpage> {
   final TextEditingController employeecode = TextEditingController();
   final TextEditingController password = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  void checkInternetConnection() async {
+  void checkInternetConnectionAndLogin() async {
     bool hasConnection = await InternetConnection().hasInternetAccess;
     if (!hasConnection) {
       Fluttertoast.showToast(
@@ -30,7 +26,24 @@ class _MyAppState extends State<loginpage> {
         gravity: ToastGravity.BOTTOM,
       );
     } else {
-      ApiService().postLogin({"employee code": " ", "password": " "});
+      try {
+        List<Login> response = await ApiService().postLogin({
+          "employeeCode": employeecode.text.trim(),
+          "password": password.text.trim(),
+        });
+
+        if (response.isNotEmpty) {
+          Fluttertoast.showToast(msg: "Login successful");
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) =>  mainpage()),
+          );
+        } else {
+          Fluttertoast.showToast(msg: "Invalid username or password");
+        }
+      } catch (e) {
+        Fluttertoast.showToast(msg: "Login failed");
+      }
     }
   }
 
@@ -42,7 +55,12 @@ class _MyAppState extends State<loginpage> {
         backgroundColor: Colors.blue,
         title: Text("LOGIN PAGE", style: TextStyle(color: Colors.white)),
         actions: [
-          Text("Exit", style: TextStyle(color: Colors.white, fontSize: 20)),
+          Padding(
+            padding: EdgeInsets.only(right: 16),
+            child: Center(
+              child: Text("Exit", style: TextStyle(color: Colors.white, fontSize: 20)),
+            ),
+          ),
         ],
       ),
       body: Form(
@@ -53,10 +71,7 @@ class _MyAppState extends State<loginpage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [Text("Employee code")],
-              ),
+              Text("Employee code"),
               TextFormField(
                 controller: employeecode,
                 decoration: InputDecoration(
@@ -74,9 +89,10 @@ class _MyAppState extends State<loginpage> {
               Text("Password"),
               TextFormField(
                 controller: password,
+                obscureText: true,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(),
-                  hintText: "Enter Passowrd",
+                  hintText: "Enter Password",
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -90,9 +106,8 @@ class _MyAppState extends State<loginpage> {
                 child: ElevatedButton(
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      checkInternetConnection();
+                      checkInternetConnectionAndLogin();
                     }
-                    ;
                   },
                   child: Text("Login"),
                   style: ElevatedButton.styleFrom(
@@ -106,5 +121,9 @@ class _MyAppState extends State<loginpage> {
         ),
       ),
     );
+  }
+  void _clearControllers(){
+    employeecode.clear();
+    password.clear();
   }
 }
